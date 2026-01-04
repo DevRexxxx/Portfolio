@@ -1,147 +1,429 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DevRexxxx Portfolio</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Eshaan Singh Deo — Portfolio</title>
+
     <style>
-        * {
+        /* Importing a new, modern font: Inter */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        
+        /* Basic styles for the entire page */
+        body {
+            font-family: 'Inter', sans-serif;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #1a1a2e; /* Dark navy background */
+            color: #e0e0e0;
             line-height: 1.6;
-            color: #333;
+            position: relative;
+            overflow-x: hidden; /* Hide horizontal scrollbar */
         }
         
-        header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            text-align: center;
-            padding: 2rem 0;
+        /* 3D Background Canvas */
+        #threejs-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.5;
         }
-        
-        header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
+
+        /* Fixed Navigation Bar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(26, 26, 46, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            z-index: 1000;
         }
-        
-        header p {
-            font-size: 1.1rem;
-            opacity: 0.9;
+        .navbar .logo {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #ff5722;
         }
-        
-        nav {
-            background: #333;
-            padding: 1rem;
-            text-align: center;
-        }
-        
-        nav a {
-            color: white;
+        .navbar-links a {
+            color: #c0c0c0;
             text-decoration: none;
-            margin: 0 1rem;
-            transition: color 0.3s;
+            margin-left: 2rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
         }
-        
-        nav a:hover {
-            color: #667eea;
+        .navbar-links a:hover {
+            color: #ff5722;
         }
-        
-        .container {
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 0 1rem;
+        .resume-btn {
+            background: #ff5722;
+            color: white;
+            border: none;
+            padding: 0.5rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 500;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
         }
-        
-        .section {
-            margin: 2rem 0;
+        .resume-btn:hover {
+            background: #e64a19;
+        }
+
+        /* Main content container */
+        main {
             padding: 2rem;
-            background: #f4f4f4;
-            border-radius: 5px;
+            max-width: 1100px;
+            margin: auto;
+            padding-top: 6rem;
+            position: relative;
+            z-index: 1;
         }
-        
-        .section h2 {
-            margin-bottom: 1rem;
-            color: #667eea;
+
+        /* Hero section styling */
+        .hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 5rem 1rem;
+            gap: 2rem;
+            background: #1f1f38;
+            border-radius: 12px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+            /* New pattern for the first box */
+            background-image: radial-gradient(#3b3b5c 1px, transparent 1px);
+            background-size: 15px 15px;
         }
-        
-        .project {
-            background: white;
+        @media (min-width: 768px) {
+            .hero {
+                flex-direction: row;
+                text-align: left;
+                padding: 4rem;
+            }
+        }
+
+        .hero-content {
+            flex: 1;
+        }
+        .avatar-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             padding: 1rem;
-            margin: 1rem 0;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            background: #2b2b48;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            background-image: radial-gradient(circle at top left, rgba(255, 255, 255, 0.05), transparent 70%);
+        }
+        .avatar {
+            width: 100%;
+            max-width: 250px;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
         }
         
-        .project h3 {
-            color: #764ba2;
+        .big-name {
+            font-size: 3.5rem;
+            font-weight: 600;
+            margin: 0;
+            color: #00BCD4; /* Changed color to vibrant teal */
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        .tagline {
+            font-size: 1.4rem;
+            color: #c0c0c0;
+            margin-bottom: 2rem;
+            font-weight: 500;
+        }
+        .hero p {
+            margin-bottom: 1rem;
+        }
+
+        /* General section styling */
+        h2 {
+            font-size: 2.2rem;
+            font-weight: 500;
+            color: #ff5722;
+            border-bottom: 3px solid #ff5722;
+            display: inline-block;
+            padding-bottom: 0.25rem;
+            margin-top: 3rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Skills list styling */
+        .skills-list {
+            list-style-type: none;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .skills-list li {
+            background-color: #3b3b5c;
+            color: #e0e0e0;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 500;
+        }
+
+        /* Project cards - Added 3D transform effect on hover */
+        .project-card {
+            background: #2b2b48;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            transform-style: preserve-3d;
+            /* Added new diagonal line pattern */
+            background-image:
+                linear-gradient(45deg, rgba(255, 255, 255, 0.05) 5%, transparent 5%),
+                linear-gradient(-45deg, rgba(255, 255, 255, 0.05) 5%, transparent 5%);
+            background-size: 15px 15px;
+            background-position: 0 0;
+        }
+        .project-card:hover {
+            transform: translateY(-5px) rotateX(5deg) rotateY(5deg);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+        .project-card h3 {
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: #ff5722;
             margin-bottom: 0.5rem;
         }
-        
-        .project a {
-            color: #667eea;
-            text-decoration: none;
-            font-weight: bold;
+        .project-card p {
+            color: #c0c0c0;
         }
-        
-        .project a:hover {
+
+        /* Contact section links */
+        a {
+            color: #ff5722;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        a:hover {
+            color: #e64a19;
             text-decoration: underline;
         }
         
+        .social-icons a {
+            font-size: 2rem;
+            margin: 0 1rem;
+            color: #ff5722;
+        }
+
+        /* Footer styling */
         footer {
-            background: #333;
-            color: white;
             text-align: center;
-            padding: 1rem;
-            margin-top: 2rem;
+            padding: 1.5rem;
+            font-size: 0.9rem;
+            color: #999;
+            border-top: 1px solid #444;
+            margin-top: 3rem;
+        }
+        .github-btn {
+            background-color: transparent; 
+            color: #00BCD4; 
+            border: 2px solid #00BCD4; 
+            padding: 0.5rem 1.5rem; 
+            text-decoration: none; 
+            border-radius: 8px; 
+            transition: background-color 0.3s ease;
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>DevRexxxx</h1>
-        <p>Web Developer & Creative Technologist</p>
-    </header>
-    
-    <nav>
-        <a href="#about">About</a>
-        <a href="#projects">Projects</a>
-        <a href="#contact">Contact</a>
+    <canvas id="threejs-background"></canvas>
+
+    <nav class="navbar">
+        <div class="logo">ESD</div>
+        <div class="navbar-links">
+            <a href="#about">About</a>
+            <a href="#skills">Skills</a>
+            <a href="#projects">Projects</a>
+            <a href="#education">Education</a>
+            <a href="#contact">Contact</a>
+        </div>
+        <a href="#" class="resume-btn">Resume</a>
     </nav>
-    
-    <div class="container">
-        <section class="section" id="about">
+
+    <main>
+        <section id="hero" class="hero">
+            <div class="hero-content">
+                <h1 class="big-name" style="color: #00BCD4;">Greetings, I'm Eshaan Singh Deo</h1>
+                <p class="tagline">B.Tech CSE Student • Web Developer • Problem Solver</p>
+                <p>I am a B.Tech 2nd-year student specializing in Computer Science with a keen interest in Web Development, problem-solving, and emerging technologies. I am passionate about building practical projects, enhancing skills, and applying theoretical knowledge to real-world applications. Eager to learn, adapt, and contribute to innovative solutions, along with an interest in Cloud Computing.</p>
+            </div>
+            <div class="avatar-container">
+                <img class="avatar" src="image.jpg" alt="Eshaan Singh Deo">
+            </div>
+        </section>
+
+        <section id="about">
             <h2>About Me</h2>
-            <p>Welcome to my portfolio! I'm a passionate developer with expertise in web development, creating engaging and interactive digital experiences.</p>
+            <p>
+                I am a B.Tech 2nd-year student specializing in Computer Science with a keen interest in Web Development, problem-solving, and emerging technologies. I am passionate about building practical projects, enhancing skills, and applying theoretical knowledge to real-world applications. Eager to learn, adapt, and contribute to innovative solutions, along with an interest in Cloud Computing.
+            </p>
         </section>
-        
-        <section class="section" id="projects">
+
+        <section id="skills">
+            <h2>Skills</h2>
+            <ul class="skills-list">
+                <li>HTML</li>
+                <li>Python</li>
+                <li>CSS Basics</li>
+                <li>C Basics</li>
+                <li>Django Basics</li>
+            </ul>
+        </section>
+
+        <section id="projects">
             <h2>Projects</h2>
-            
-            <div class="project">
-                <h3>Educational Platform</h3>
-                <p>A comprehensive educational support dashboard</p>
-                <a href="https://devrexxxx.github.io/im.esd/">View Project</a>
+            <div class="project-card">
+                <h3>💻 Personal Portfolio Website</h3>
+                <p>Designed and developed a responsive portfolio website using HTML and CSS. Hosted on GitHub Pages.</p>
+                <a href="https://royalking9314.github.io/im.esd/" class="github-btn">View Project</a>
             </div>
-            
-            <div class="project">
-                <h3>Portfolio Website</h3>
-                <p>My personal portfolio showcasing my work and skills</p>
+            <div class="project-card">
+                <h3>🏦 Bank-Prototype Website</h3>
+                <p> Designed and developed a backend Bank Prototype website using HTML, CSS and Django. Hosted on GitHub Pages.</p>
+                <a href="https://royalking9314.github.io/im.esd/" class="github-btn">View Projects</a>
             </div>
         </section>
-        
-        <section class="section" id="contact">
-            <h2>Contact</h2>
-            <p>Feel free to reach out to me for collaboration or inquiries.</p>
+
+        <section id="education">
+            <h2>Education</h2>
+            <div class="project-card">
+                <h3>B.Tech in Computer Science, AKTU</h3>
+                <p><strong>2024 - Present</strong></p>
+            </div>
+            <div class="project-card">
+                <h3>Intermediate, CBSE</h3>
+                <p><strong>2023 - 2024</strong></p>
+            </div>
+            <div class="project-card">
+                <h3>High School, CBSE</h3>
+                <p><strong>2021 - 2022</strong></p>
+            </div>
         </section>
-    </div>
-    
+
+        <section id="contact" style="text-align: center;">
+            <h2>Get In Touch</h2>
+            <p style="color: #c0c0c0; max-width: 600px; margin: 0 auto 2rem;">
+                I'm always open to new opportunities and collaborations. Feel free to connect with me!
+            </p>
+            <p style="font-size: 1.25rem; font-weight: 600; margin-bottom: 2rem;">
+                <a href="mailto:eshaansinghdeo@gmail.com">eshaansinghdeo@gmail.com</a>
+            </p>
+            <div class="social-icons">
+                <a href="https://www.linkedin.com/in/eshaan-singh-deo-ba669433a?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" title="LinkedIn">💼</a>
+                <a href="https://github.com/DevRexxxx" target="_blank" title="GitHub">🌟</a>
+            </div>
+        </section>
+    </main>
+
     <footer>
-        <p>&copy; 2026 DevRexxxx. All rights reserved.</p>
+        <p>© <span id="year"></span> Eshaan Singh Deo | All Rights Reserved</p>
     </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const canvas = document.getElementById('threejs-background');
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+
+            // Create a low-poly geometric landscape
+            const geometry = new THREE.PlaneGeometry(100, 100, 50, 50);
+            const material = new THREE.MeshPhongMaterial({
+                color: 0x3b3b5c,
+                shininess: 20,
+                flatShading: true,
+                transparent: true,
+                opacity: 0.8
+            });
+
+            const plane = new THREE.Mesh(geometry, material);
+            scene.add(plane);
+
+            // Distort the geometry for the landscape effect
+            const positions = geometry.attributes.position.array;
+            for (let i = 0; i < positions.length; i += 3) {
+                positions[i + 2] = (Math.random() - 0.5) * 5; // Distort the z-axis
+            }
+            geometry.attributes.position.needsUpdate = true;
+
+            plane.rotation.x = -Math.PI / 2; // Orient the plane horizontally
+            plane.position.y = -5; // Place it below the camera
+
+            // Add lights to make the 3D shapes visible
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
+            scene.add(ambientLight);
+            
+            const pointLight = new THREE.PointLight(0xff5722, 1, 100);
+            pointLight.position.set(0, 10, 0);
+            scene.add(pointLight);
+
+            camera.position.set(0, 2, 10);
+
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+
+            // Handle mouse movement for interactive camera control
+            let mouseX = 0, mouseY = 0;
+            window.addEventListener('mousemove', (event) => {
+                mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+                mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+            });
+            
+            const animate = () => {
+                requestAnimationFrame(animate);
+
+                // Animate camera position for a "flying" motion
+                const time = Date.now() * 0.001;
+                camera.position.x = Math.cos(time * 0.1) * 2;
+                camera.position.z = Math.sin(time * 0.1) * 2 + 10;
+                camera.position.y = Math.sin(time * 0.5) * 0.5 + 2;
+
+                // Move the plane along with the camera for infinite effect
+                plane.position.x = camera.position.x;
+                plane.position.z = camera.position.z;
+
+                // Update the point light position
+                pointLight.position.x = camera.position.x + 5;
+                pointLight.position.z = camera.position.z - 5;
+                
+                // Add interactive camera control with mouse
+                camera.position.x += (mouseX * 0.5 - camera.position.x) * 0.05;
+                camera.position.y += (mouseY * 0.5 - camera.position.y) * 0.05;
+                camera.lookAt(new THREE.Vector3(camera.position.x, 0, camera.position.z - 10));
+
+                renderer.render(scene, camera);
+            };
+
+            animate();
+        });
+        
+        // JavaScript to dynamically set the current year in the footer
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
 </body>
 </html>
